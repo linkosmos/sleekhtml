@@ -13,9 +13,18 @@ func Sanitize(r io.Reader, tags *Tags) (io.Reader, error) {
 	if tags == nil {
 		tags = NewTags()
 	}
+	return process(html.NewTokenizer(r), tags)
+}
 
-	tokenizer := html.NewTokenizer(r)
+// SanitizeTokenizer - sanitizes given tokenizer from unnecessary space & tags
+func SanitizeTokenizer(t *html.Tokenizer, tags *Tags) (io.Reader, error) {
+	if tags == nil {
+		tags = NewTags()
+	}
+	return process(t, tags)
+}
 
+func process(tokenizer *html.Tokenizer, tags *Tags) (io.Reader, error) {
 	var buffer bytes.Buffer
 	ignoredTag := false
 
