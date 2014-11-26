@@ -43,7 +43,10 @@ func process(tokenizer *html.Tokenizer, tags *Tags) (io.Reader, error) {
 		case html.DoctypeToken:
 			buffer.Write(trimSpace(tokenizer.Raw()))
 
-		case html.CommentToken: // Ignore comments (IE as well)
+		case html.CommentToken: // Ignore HTML comments except IE
+			if tags.AllowIEComments && bytes.HasPrefix(tokenizer.Raw(), []byte("<!--[if")) {
+				buffer.Write(trimSpace(tokenizer.Raw()))
+			}
 			break
 
 		case html.StartTagToken, html.SelfClosingTagToken:

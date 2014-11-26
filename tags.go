@@ -6,9 +6,12 @@ type Tags struct {
 	// IgnoredHTMLTags - contains tags which will be ignored/removed
 	IgnoredHTMLTags []string
 
-	// AllowedHTMLAttributes - contains HTML attributes 
+	// AllowedHTMLAttributes - contains HTML attributes
 	// which will be kept
 	AllowedHTMLAttributes []string
+
+	// AllowIEComments - ignore or save IE comments
+	AllowIEComments bool
 }
 
 // NewTags - initializes Tags with default values
@@ -29,6 +32,7 @@ func NewTags() *Tags {
 			"title", "alt", "rel", "http-equiv",
 			"content", "name", "description", "charset",
 		},
+		AllowIEComments: false,
 	}
 }
 
