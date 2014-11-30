@@ -28,12 +28,13 @@ IgnoredHTMLTags: []string{
 }
 
 // http-equiv, content & charset tags should be always present
-// since they handles HTML encoding
 AllowedHTMLAttributes: []string{
 	"id", "class", "src", "href",
 	"title", "alt", "rel", "http-equiv",
 	"content", "name", "description", "charset",
 }
+
+AllowIEComments: false
 ```
 
 ## Usage
