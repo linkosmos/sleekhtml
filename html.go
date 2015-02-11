@@ -8,38 +8,28 @@ import (
 	"code.google.com/p/go.net/html"
 )
 
+var emptyByte = []byte("")
+var nbsp = []byte("&nbsp;")
+
 // Sanitize - sanitizes & grooms HTML from unnecessary space & tags
-func Sanitize(r io.Reader, tags *Tags) (io.Reader, error) {
+func Sanitize(r io.Reader, tags *Tags) ([]byte, error) {
 	if tags == nil {
 		tags = NewTags()
 	}
 	return process(html.NewTokenizer(r), tags)
 }
 
-// SanitizeTokenizer - sanitizes given tokenizer from unnecessary space & tags
-func SanitizeTokenizer(t *html.Tokenizer, tags *Tags) (io.Reader, error) {
-	if tags == nil {
-		tags = NewTags()
-	}
-	return process(t, tags)
-}
-
-func process(tokenizer *html.Tokenizer, tags *Tags) (io.Reader, error) {
+func process(tokenizer *html.Tokenizer, tags *Tags) ([]byte, error) {
 	var buffer bytes.Buffer
-	ignoredTag := false
+	var ignoredTag = false
 
 	for {
 		tt := tokenizer.Next() // TokenType
-		token := tokenizer.Token()
+		if tt == html.ErrorToken {
+			return buffer.Bytes(), nil
+		}
 
 		switch tt {
-		case html.ErrorToken:
-			err := tokenizer.Err()
-			if err == io.EOF {
-				return &buffer, nil
-			}
-			return nil, err
-
 		case html.DoctypeToken:
 			buffer.Write(trimSpace(tokenizer.Raw()))
 
@@ -50,6 +40,7 @@ func process(tokenizer *html.Tokenizer, tags *Tags) (io.Reader, error) {
 			break
 
 		case html.StartTagToken, html.SelfClosingTagToken:
+			token := tokenizer.Token()
 			if tags.IsIgnoredHTMLTag(token.DataAtom.String()) {
 				ignoredTag = true
 				break
@@ -69,7 +60,7 @@ func process(tokenizer *html.Tokenizer, tags *Tags) (io.Reader, error) {
 			if ignoredTag {
 				break
 			}
-			buffer.Write(trimSpace(tokenizer.Raw()))
+			buffer.Write(trimText(tokenizer.Raw()))
 
 		case html.EndTagToken:
 			if ignoredTag {
@@ -83,6 +74,10 @@ func process(tokenizer *html.Tokenizer, tags *Tags) (io.Reader, error) {
 	}
 }
 
-func trimSpace(s []byte) []byte {
-	return bytes.TrimSpace(s)
+func trimSpace(b []byte) []byte {
+	return bytes.TrimSpace(b)
+}
+
+func trimText(b []byte) []byte {
+	return trimSpace(bytes.Replace(b, nbsp, emptyByte, -1))
 }
