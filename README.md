@@ -3,6 +3,7 @@ sleekhtml
 
 Cleans &amp; grooms HTML document from unnecessary white-space, HTML tags, comments &amp; other elements.
 
+[![Build Status](https://travis-ci.org/ernestas-poskus/sleekhtml.svg)](https://travis-ci.org/ernestas-poskus/sleekhtml)
 [![GoDoc](http://godoc.org/github.com/ernestas-poskus/sleekhtml?status.svg)](http://godoc.org/github.com/ernestas-poskus/sleekhtml)
 [![MITLicense](http://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
