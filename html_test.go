@@ -3,6 +3,8 @@ package sleekhtml
 import (
 	"os"
 	"testing"
+
+	"golang.org/x/net/html/atom"
 )
 
 func testInput1() (*os.File, string) {
@@ -15,18 +17,19 @@ func testInput1() (*os.File, string) {
 
 func testTags() *Tags {
 	tags := NewTags()
-	tags.IgnoredHTMLTags = append(tags.IgnoredHTMLTags, "title")
-	tags.IgnoredHTMLTags = append(tags.IgnoredHTMLTags, "meta")
-	tags.IgnoredHTMLTags = append(tags.IgnoredHTMLTags, "p")
+	tags.IgnoredHTMLTags = append(tags.IgnoredHTMLTags, atom.Title)
+	tags.IgnoredHTMLTags = append(tags.IgnoredHTMLTags, atom.Meta)
+	tags.IgnoredHTMLTags = append(tags.IgnoredHTMLTags, atom.P)
 
 	return tags
 }
 
 func TestSanitize(t *testing.T) {
 	input, expected := testInput1()
-	got, _ := Sanitize(input, testTags())
+	output, _ := Sanitize(input, testTags())
+	got := string(output)
 
-	if string(got) != expected {
+	if got != expected {
 		t.Error(len(got), "!=", len(expected))
 		t.Error(got, "\n", expected)
 	}

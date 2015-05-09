@@ -41,7 +41,7 @@ func process(tokenizer *html.Tokenizer, tags *Tags) ([]byte, error) {
 
 		case html.StartTagToken, html.SelfClosingTagToken:
 			token := tokenizer.Token()
-			if tags.IsIgnoredHTMLTag(token.DataAtom.String()) {
+			if tags.IsIgnoredHTMLTag(token.DataAtom) {
 				ignoredTag = true
 				break
 			}
