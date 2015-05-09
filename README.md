@@ -20,19 +20,27 @@ Use tags to get desired output
 
 Defaults:
 ```go
-IgnoredHTMLTags: []string{
-	"script", "style", "iframe", "input",
-	"form", "svg", "select", "label",
-	"fieldset", "frame", "frameset", "noframes",
-	"noembed", "embed", "applet", "object",
-	"base",
+// DefaultIgnoredHTMLTags -
+// Form, input, selects
+DefaultIgnoredHTMLTags = []atom.Atom{
+	atom.Script, atom.Style, atom.Iframe, atom.Hr,
+
+	atom.Form, atom.Input, atom.Select, atom.Label,
+	atom.Fieldset, atom.Button,
+
+	atom.Noembed, atom.Embed, atom.Object, atom.Base,
+	atom.Canvas, atom.Svg,
 }
 
+// DefaultAllowedHTMLAttributes -
 // http-equiv, content & charset tags should be always present
-AllowedHTMLAttributes: []string{
+// since they handles HTML encoding
+DefaultAllowedHTMLAttributes = []string{
 	"id", "class", "src", "href",
 	"title", "alt", "rel", "http-equiv",
 	"content", "name", "description", "charset",
+	"lang",
+	"itemprop", "itemscope", "itemref", "itemtype", // Microdata
 }
 
 AllowIEComments: false
