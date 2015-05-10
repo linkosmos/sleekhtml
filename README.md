@@ -3,8 +3,8 @@ sleekhtml
 
 Cleans &amp; grooms HTML document from unnecessary white-space, HTML tags, comments &amp; other elements.
 
-[![Build Status](https://travis-ci.org/ernestas-poskus/sleekhtml.svg)](https://travis-ci.org/ernestas-poskus/sleekhtml)
-[![GoDoc](http://godoc.org/github.com/ernestas-poskus/sleekhtml?status.svg)](http://godoc.org/github.com/ernestas-poskus/sleekhtml)
+[![Build Status](https://travis-ci.org/linkosmosis/sleekhtml.svg?branch=master)](https://travis-ci.org/linkosmosis/sleekhtml)
+[![GoDoc](http://godoc.org/github.com/sleekhtml/sleekhtml?status.svg)](http://godoc.org/github.com/sleekhtml/sleekhtml)
 [![MITLicense](http://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 ## Benchmark (default options)
@@ -54,7 +54,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ernestas-poskus/sleekhtml"
+	"github.com/sleekhtml/sleekhtml"
 )
 
 func main() {
@@ -71,5 +71,3 @@ func main() {
 	fmt.Println(output)
 }
 ```
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ernestas-poskus/sleekhtml/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
