@@ -20,10 +20,9 @@ var (
 	// http-equiv, content & charset tags should be always present
 	// since they handles HTML encoding
 	DefaultAllowedHTMLAttributes = []string{
-		"id", "class", "src", "href",
-		"title", "alt", "rel", "http-equiv",
-		"content", "name", "description", "charset",
-		"lang",
+		"src", "href", "title", "alt",
+		"rel", "http-equiv", "content", "name",
+		"description", "charset", "lang",
 		"itemprop", "itemscope", "itemref", "itemtype", // Microdata
 	}
 )
