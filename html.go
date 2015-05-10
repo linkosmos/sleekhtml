@@ -5,8 +5,11 @@ import (
 	"io"
 	"strings"
 
-	"code.google.com/p/go.net/html"
+	"golang.org/x/net/html"
 )
+
+// FilterTokenFunc - callback function process token
+type FilterTokenFunc func(t *html.Token)
 
 var emptyByte = []byte("")
 var nbsp = []byte("&nbsp;")
@@ -16,34 +19,39 @@ func Sanitize(r io.Reader, tags *Tags) ([]byte, error) {
 	if tags == nil {
 		tags = NewTags()
 	}
-	return process(html.NewTokenizer(r), tags)
+	return Process(html.NewTokenizer(r), tags, nil)
 }
 
-func process(tokenizer *html.Tokenizer, tags *Tags) ([]byte, error) {
+// Process -
+func Process(parser *html.Tokenizer, tags *Tags, tokenFilter FilterTokenFunc) ([]byte, error) {
 	var buffer bytes.Buffer
 	var ignoredTag = false
 
 	for {
-		tt := tokenizer.Next() // TokenType
+		tt := parser.Next() // TokenType
 		if tt == html.ErrorToken {
 			return buffer.Bytes(), nil
 		}
 
 		switch tt {
 		case html.DoctypeToken:
-			buffer.Write(trimSpace(tokenizer.Raw()))
+			buffer.Write(trimSpace(parser.Raw()))
 
 		case html.CommentToken: // Ignore HTML comments except IE
-			if tags.AllowIEComments && bytes.HasPrefix(tokenizer.Raw(), []byte("<!--[if")) {
-				buffer.Write(trimSpace(tokenizer.Raw()))
+			if tags.AllowIEComments && bytes.HasPrefix(parser.Raw(), []byte("<!--[if")) {
+				buffer.Write(trimSpace(parser.Raw()))
 			}
 			break
 
 		case html.StartTagToken, html.SelfClosingTagToken:
-			token := tokenizer.Token()
+			token := parser.Token()
 			if tags.IsIgnoredHTMLTag(token.DataAtom) {
 				ignoredTag = true
 				break
+			}
+
+			if tokenFilter != nil {
+				tokenFilter(&token)
 			}
 
 			if len(token.Attr) > 0 {
@@ -60,16 +68,16 @@ func process(tokenizer *html.Tokenizer, tags *Tags) ([]byte, error) {
 			if ignoredTag {
 				break
 			}
-			buffer.Write(trimText(tokenizer.Raw()))
+			buffer.Write(trimText(parser.Raw()))
 
 		case html.EndTagToken:
 			if ignoredTag {
 				ignoredTag = false
 				break
 			}
-			buffer.Write(trimSpace(tokenizer.Raw()))
+			buffer.Write(trimSpace(parser.Raw()))
 		default:
-			buffer.Write(trimSpace(tokenizer.Raw()))
+			buffer.Write(trimSpace(parser.Raw()))
 		}
 	}
 }
