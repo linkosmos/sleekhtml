@@ -10,7 +10,7 @@ var (
 		atom.Script, atom.Style, atom.Iframe, atom.Hr,
 
 		atom.Form, atom.Input, atom.Select, atom.Label,
-		atom.Fieldset, atom.Button,
+		atom.Fieldset, atom.Button, atom.Textarea,
 
 		atom.Noembed, atom.Embed, atom.Object, atom.Base,
 		atom.Canvas, atom.Svg,
