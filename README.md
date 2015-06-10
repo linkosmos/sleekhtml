@@ -3,8 +3,8 @@ sleekhtml
 
 Cleans &amp; grooms HTML document from unnecessary white-space, HTML tags, comments &amp; other elements.
 
-[![Build Status](https://travis-ci.org/linkosmosis/sleekhtml.svg?branch=master)](https://travis-ci.org/linkosmosis/sleekhtml)
-[![GoDoc](http://godoc.org/github.com/linkosmosis/sleekhtml?status.svg)](http://godoc.org/github.com/linkosmosis/sleekhtml)
+[![Build Status](https://travis-ci.org/linkosmos/sleekhtml.svg?branch=master)](https://travis-ci.org/linkosmos/sleekhtml)
+[![GoDoc](http://godoc.org/github.com/linkosmos/sleekhtml?status.svg)](http://godoc.org/github.com/linkosmos/sleekhtml)
 [![MITLicense](http://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 ## Benchmark (default options)
